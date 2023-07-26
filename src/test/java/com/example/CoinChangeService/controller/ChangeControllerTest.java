@@ -33,21 +33,17 @@ public class ChangeControllerTest {
     
 	@Test
     public void testMakeChange() throws Exception {
-        // Define your expected change map
         Map<Double, Integer> expectedChangeMap = new HashMap<>();
         expectedChangeMap.put(0.25, 1);
         expectedChangeMap.put(0.10, 1);
         expectedChangeMap.put(0.05, 1);
         expectedChangeMap.put(0.01, 1);
 
-        // Convert map to JSON string
         ObjectMapper objectMapper = new ObjectMapper();
         String expectedChangeMapAsJsonString = objectMapper.writeValueAsString(expectedChangeMap);
 
-        // When calculateChange() is called with 0.41, return the expectedChangeMap
         when(changeService.calculateChange(0.41, false)).thenReturn(expectedChangeMap);
 
-        // Perform the POST request and check that the response is the expected JSON
         mockMvc.perform(post("/api/change/0.41")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -56,10 +52,8 @@ public class ChangeControllerTest {
 
     @Test
     public void testMakeChangeNotEnoughCoins() throws Exception {
-        // When calculateChange() is called with 1000.00, throw an IllegalArgumentException
         when(changeService.calculateChange(1000.00, false)).thenThrow(new IllegalArgumentException("Not enough change available."));
 
-        // Perform the POST request and check that the response status is 400 Bad Request
         mockMvc.perform(post("/api/change/1000.00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

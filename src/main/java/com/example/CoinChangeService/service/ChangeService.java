@@ -3,6 +3,7 @@ package com.example.CoinChangeService.service;
 import com.example.CoinChangeService.exception.CoinChangeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 
 @Service
@@ -34,7 +35,7 @@ public class ChangeService {
     public Map<Double, Integer> calculateChange(double bill, boolean maxCoins) {
         // Check if the given bill is allowed
         if(!allowedBills.contains(bill)) {
-        	throw new CoinChangeException("Invalid bill passed: " + bill + ". Available bills are (1, 2, 5, 10, 20, 50, 100)");
+            throw new CoinChangeException("Invalid bill passed: " + bill + ". Available bills are (1, 2, 5, 10, 20, 50, 100)");
         }
 
         Map<Double, Integer> change = new HashMap<>();
