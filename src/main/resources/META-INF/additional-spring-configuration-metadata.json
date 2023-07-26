@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "coin.change.service.initialCoins.penny",
+    "type": "java.lang.String",
+    "description": "A description for 'coin.change.service.initialCoins.penny'"
+  },
+  {
+    "name": "coin.change.service.initialCoins.quarter",
+    "type": "java.lang.String",
+    "description": "A description for 'coin.change.service.initialCoins.quarter'"
+  },
+  {
+    "name": "coin.change.service.initialCoins.nickel",
+    "type": "java.lang.String",
+    "description": "A description for 'coin.change.service.initialCoins.nickel'"
+  },
+  {
+    "name": "coin.change.service.initialCoins.dime",
+    "type": "java.lang.String",
+    "description": "A description for 'coin.change.service.initialCoins.dime'"
+  },
+  {
+    "name": "coin.change.service.initialCoins.dime",
+    "type": "java.lang.String",
+    "description": "A description for 'coin.change.service.initialCoins.dime'"
+  }
+]}
