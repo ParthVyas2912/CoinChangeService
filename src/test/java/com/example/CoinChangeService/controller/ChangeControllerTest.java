@@ -62,4 +62,59 @@ public class ChangeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+    
+    @Test
+    public void testMakeChangeExactAmount() throws Exception {
+        Map<Double, Integer> expectedChangeMap = new HashMap<>();
+        expectedChangeMap.put(0.25, 1);
+        expectedChangeMap.put(0.10, 0);
+        expectedChangeMap.put(0.05, 0);
+        expectedChangeMap.put(0.01, 0);
+
+        String expectedChangeMapAsJsonString = objectMapper.writeValueAsString(expectedChangeMap);
+
+        when(changeService.calculateChange(0.25, false)).thenReturn(expectedChangeMap);
+
+        mockMvc.perform(post("/api/change/0.25")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedChangeMapAsJsonString));
+    }
+
+    @Test
+    public void testMakeChangeZeroAmount() throws Exception {
+        Map<Double, Integer> expectedChangeMap = new HashMap<>();
+        expectedChangeMap.put(0.25, 0);
+        expectedChangeMap.put(0.10, 0);
+        expectedChangeMap.put(0.05, 0);
+        expectedChangeMap.put(0.01, 0);
+
+        String expectedChangeMapAsJsonString = objectMapper.writeValueAsString(expectedChangeMap);
+
+        when(changeService.calculateChange(0.0, false)).thenReturn(expectedChangeMap);
+
+        mockMvc.perform(post("/api/change/0.0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedChangeMapAsJsonString));
+    }
+
+    @Test
+    public void testMakeChangeMaxCoins() throws Exception {
+        Map<Double, Integer> expectedChangeMap = new HashMap<>();
+        expectedChangeMap.put(0.25, 1);
+        expectedChangeMap.put(0.10, 0);
+        expectedChangeMap.put(0.05, 1);
+        expectedChangeMap.put(0.01, 4);
+
+        String expectedChangeMapAsJsonString = objectMapper.writeValueAsString(expectedChangeMap);
+
+        when(changeService.calculateChange(0.29, true)).thenReturn(expectedChangeMap);
+
+        mockMvc.perform(post("/api/change/max-coins/0.29")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedChangeMapAsJsonString));
+    }
+
 }
