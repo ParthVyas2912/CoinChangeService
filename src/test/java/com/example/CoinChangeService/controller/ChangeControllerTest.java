@@ -23,13 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ChangeControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @MockBean
-    private ChangeService changeService;
+	@MockBean
+	private ChangeService changeService;
 
-    @Test
+	private ObjectMapper objectMapper = new ObjectMapper();
+    
+	@Test
     public void testMakeChange() throws Exception {
         // Define your expected change map
         Map<Double, Integer> expectedChangeMap = new HashMap<>();
@@ -63,24 +65,7 @@ public class ChangeControllerTest {
                 .andExpect(status().isBadRequest());
     }
     
-    @Test
-    public void testMakeChangeExactAmount() throws Exception {
-        Map<Double, Integer> expectedChangeMap = new HashMap<>();
-        expectedChangeMap.put(0.25, 1);
-        expectedChangeMap.put(0.10, 0);
-        expectedChangeMap.put(0.05, 0);
-        expectedChangeMap.put(0.01, 0);
-
-        String expectedChangeMapAsJsonString = objectMapper.writeValueAsString(expectedChangeMap);
-
-        when(changeService.calculateChange(0.25, false)).thenReturn(expectedChangeMap);
-
-        mockMvc.perform(post("/api/change/0.25")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedChangeMapAsJsonString));
-    }
-
+    
     @Test
     public void testMakeChangeZeroAmount() throws Exception {
         Map<Double, Integer> expectedChangeMap = new HashMap<>();

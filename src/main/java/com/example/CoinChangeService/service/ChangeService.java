@@ -1,5 +1,6 @@
 package com.example.CoinChangeService.service;
 
+import com.example.CoinChangeService.exception.CoinChangeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -20,6 +21,7 @@ public class ChangeService {
     private int initialQuarters;
 
     private Map<Double, Integer> coinInventory;
+    private Set<Double> allowedBills = new HashSet<>(Arrays.asList(1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0));
 
     public ChangeService() {
         coinInventory = new HashMap<>();
@@ -30,6 +32,11 @@ public class ChangeService {
     }
 
     public Map<Double, Integer> calculateChange(double bill, boolean maxCoins) {
+        // Check if the given bill is allowed
+        if(!allowedBills.contains(bill)) {
+        	throw new CoinChangeException("Invalid bill passed: " + bill + ". Available bills are (1, 2, 5, 10, 20, 50, 100)");
+        }
+
         Map<Double, Integer> change = new HashMap<>();
         double remainingAmount = bill;
 
@@ -63,9 +70,8 @@ public class ChangeService {
 
         // If we have a remaining amount, we don't have enough change
         if (remainingAmount > 0) {
-            throw new IllegalArgumentException("Not enough change available.");
+            throw new CoinChangeException("Not enough change available.");
         }
-
         return change;
     }
 }

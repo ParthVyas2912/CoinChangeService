@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.CoinChangeService.CoinChangeServiceApplication;
 import com.example.CoinChangeService.service.ChangeService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 
-@SpringBootTest
+@SpringBootTest(classes = CoinChangeServiceApplication.class)
 public class ChangeServiceTest {
 
     @Autowired
